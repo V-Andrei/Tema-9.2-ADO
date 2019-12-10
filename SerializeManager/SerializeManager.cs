@@ -12,35 +12,52 @@ using System.Xml.Serialization;
 
 namespace SerializeManager
 {
-    class SerializeManager
+        class SerializeManager
     {
         static void Main(string[] args)
         {
-            //xmlMethod();
 
+            xmlMethod();
+
+            //jsonMethod();
+        }
+
+        
+        private static void jsonMethod()
+        {
             BookRepository bookRepository = new BookRepository();
 
             List<Book> books = bookRepository.GetAllBooks();
 
-            string output = JsonConvert.SerializeObject(books);
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter sw = new StreamWriter(@"d:\json.txt"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, books);
+            }
         }
 
         private static void xmlMethod()
         {
-            XmlSerializer xsSubmit = new XmlSerializer(typeof(Book));
-            var books = new Book();
+            BookRepository bookRepository = new BookRepository();
 
+            List<Book> books = bookRepository.GetAllBooks();
 
-            var xml = "What is this?";
+            XmlSerializer xsSubmit = new XmlSerializer(typeof(List<Book>));
 
             using (var sww = new StringWriter())
             {
                 using (XmlWriter writer = XmlWriter.Create(sww))
                 {
                     xsSubmit.Serialize(writer, books);
-                    xml = sww.ToString(); 
+                    string xml = sww.ToString(); 
+
+                    File.WriteAllText(@"d:\xml.txt",xml);
                 }
             }
+
         }
     }
 }

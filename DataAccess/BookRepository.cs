@@ -19,7 +19,9 @@ namespace DataAccess
             {
                 var query = "select * from [Book]";
 
-                var connection = ConnectionManager.GetConnection();
+                string connectionString = "Data Source=.;Initial Catalog=HomeworkWeek9Day1;Integrated Security=True";
+                SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
 
                 SqlCommand command = new SqlCommand(query, connection);
 
