@@ -19,9 +19,7 @@ namespace DataAccess
             {
                 var query = "select * from [Book]";
 
-                string connectionString = "Data Source=.;Initial Catalog=HomeworkWeek9Day1;Integrated Security=True";
-                SqlConnection connection = new SqlConnection(connectionString);
-                connection.Open();
+                var connection = ConnectionManager.GetConnection();
 
                 SqlCommand command = new SqlCommand(query, connection);
 
@@ -37,6 +35,7 @@ namespace DataAccess
                     book.Title = currentRow["Title"].ToString();
                     book.PublisherId = currentRow["PublisherId"] as int? ?? default(int); ;
                     book.Year = currentRow["Year"] as int? ?? default(int);
+                    book.Price = currentRow["Price"] as int? ?? default(int);
                     book.Price = currentRow["Price"] as decimal? ?? default(decimal);
 
                     books.Add(book);
