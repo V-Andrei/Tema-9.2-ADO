@@ -14,9 +14,9 @@ namespace SummaryBookApp
         static void Main(string[] args)
         {
             var connection = ConnectionManager.GetConnection();
-            //Top10Books(connection);
+            Top10Books(connection);
             //Select2010Books(connection);
-            MaxYear(connection);
+            //MaxYear(connection);
 
             Console.ReadKey();
         }

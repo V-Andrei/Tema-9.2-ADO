@@ -35,7 +35,6 @@ namespace DataAccess
                     book.Title = currentRow["Title"].ToString();
                     book.PublisherId = currentRow["PublisherId"] as int? ?? default(int); ;
                     book.Year = currentRow["Year"] as int? ?? default(int);
-                    book.Price = currentRow["Price"] as int? ?? default(int);
                     book.Price = currentRow["Price"] as decimal? ?? default(decimal);
 
                     books.Add(book);
