@@ -13,18 +13,40 @@ namespace SummaryPublisherApp
     {
         static void Main(string[] args)
         {
-            //var connection = ConnectionManager.GetConnection();
-            string connectionString = "Data Source=.;Initial Catalog=HomeworkWeek9Day1;Integrated Security=True";
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
+            var connection = ConnectionManager.GetConnection();
+
             //NumberRow(connection);
             //Top10Publishers(connection);
-            NumberBooksForPublisher(connection);
-
-            //SELECT Publisher.name, COUNT(*) AS 'number of books' FROM Publisher, book WHERE Publisher.PublisherId = book.PublisherId GROUP BY  Publisher.name
-
+            //NumberBooksForPublisher(connection);
+            TotalPrice(connection);
 
             Console.ReadKey();
+        }
+        private static void TotalPrice(SqlConnection connection)
+        {
+            try
+            {
+                var query = "SELECT Publisher.name, Sum(Price) AS 'PriceBooks' FROM Publisher, book WHERE Publisher.PublisherId = book.PublisherId GROUP BY  Publisher.name";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    var currentRow = dataReader;
+
+                    var totalBook = currentRow["PriceBooks"];
+                    var name = currentRow["Name"];
+
+
+                    Console.WriteLine($"{totalBook} Lei - {name}");
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
         }
         private static void NumberBooksForPublisher(SqlConnection connection)
         {
